@@ -1,3 +1,3 @@
-# eternity
-Eternity calculator_ COMP 354 
+# Eternity calculator_ COMP 354 
+
 : Team G 
