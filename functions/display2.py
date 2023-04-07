@@ -52,14 +52,33 @@ def init_menuBar(window):
     x=Button(menuFrame, text="  Standard", width=22, height=2, bd=0, font='arial 11', bg="gray75", anchor=W)
     x.grid(row=3, column=0)
     
-    y=Button(menuFrame, text="  View History", command=lambda: viewHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
-    y.grid(row=4, column=0)
     
-    zz=Button(menuFrame, text="  Send History (Mail)", command=lambda: sendHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
-    zz.grid(row=5, column=0)
+    
+    l2= Label(menuFrame, text= "CONVERTER", font='arial 8', bg='gray80', fg='gray10', anchor=W)
+    l2.grid(row=4, column=0, pady=5)
+
+    lengthBtn=Button(menuFrame, text="  Length", command=lambda: sendHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
+    lengthBtn.grid(row=5, column=0)
+    
+    volumeBtn=Button(menuFrame, text="  Volume", command=lambda: sendHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
+    volumeBtn.grid(row=6, column=0)
+
+    weightBtn=Button(menuFrame, text="  Weight", command=lambda: sendHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
+    weightBtn.grid(row=7, column=0)
+
+    timeBtn=Button(menuFrame, text="  Time", command=lambda: sendHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
+    timeBtn.grid(row=8, column=0)
+
+
+    l3= Label(menuFrame, text= "HISTORY", font='arial 8', bg='gray80', fg='gray10', anchor=W)
+    l3.grid(row=9, column=0, pady=5)
+
+
+    y=Button(menuFrame, text="  View History", command=lambda: viewHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
+    y.grid(row=10, column=0)
 
     z=Button(menuFrame, text="  Clear History", command=lambda: clearHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
-    z.grid(row=6, column=0)
+    z.grid(row=11, column=0)
 
 
 def bind_KeyPress(e, stdmode):

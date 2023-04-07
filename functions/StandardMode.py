@@ -2,6 +2,7 @@ from functools import partial
 from math import *
 from tkinter import *
 import datetime
+from functions.ComboBox import *
 
 def factorial(n):
     if n ==0:
@@ -215,8 +216,6 @@ class StandardMode:
         self.resetInput = True
 
 
-
-
     def handleButton(self, text, action = None):
         cur_input = self.input.get()
         basic_math_operators = ['+', '-', '÷', '×', '^']
@@ -314,14 +313,44 @@ class StandardMode:
     def test_btn2(self):
         self.input.set(self.calc_log(B=self.log_base, X=self.input.get()))
         self.resetInput = True
-        
-        
+
+
+    def sint(self, t):
+        #x = x * 3.14 / 180
+        value = t
+        sign = -1
+        n = 150 # precision
+        i = 3
+        while i < n:
+            value = value + ((t ** i) / float(factorial(i)) * sign)
+            i = i + 2
+            sign = sign * -1
+
+        #print(value)
+        return value
+
+    def cost(self, t):
+        pi = 3.14159265359
+        return self.sint(float(pi/2) - t)
+
+    def tant(self, t):
+        ret= self.sint(t)/self.cost(t)
+        print(ret)
+
+    def btn_sinx(self):
+        self.tant(0)
+        self.tant(-1.23)
+        self.tant(10)
+        self.tant(3.14159265359)
+
+    #Weight Units
+       
     def __init__(self, window):
         self.node_list = []
 
         self.window = window
         self.btn_list = []
-        self.buttonFrame = Frame(window, width=450, height=500, bg='grey90')
+        self.buttonFrame = Frame(window, width=450, bg='gray10')
         self.buttonFrame.pack(side=BOTTOM)
         self.input = StringVar(value="0")
         self.currentInputResult = StringVar()
@@ -337,19 +366,22 @@ class StandardMode:
         self.addButton("CE", action=lambda: self.btn_clearInput())
         self.addButton("C", action=lambda: self.clear())
         self.addButton("←", action=lambda: self.backspace())
+
         self.addButton("log", action=lambda: self.btn_log())
         self.addButton("xʸ", alias="^")
         self.addButton("√", action=lambda: self.btn_sqrt())
         self.addButton("𝑛!", action=lambda: self.btn_factorial())
-        self.addButton("ln")
 
+        self.addButton("ln")
         self.addButton("(", action=lambda: self.parBtn("("))
         self.addButton(")",  action=lambda: self.parBtn(")"))
         self.addButton("÷")
+
         self.addButton("7", bg="gray100")
         self.addButton("8", bg="gray100")
         self.addButton("9", bg="gray100")
         self.addButton('×')
+
         self.addButton("4", bg="gray100")
         self.addButton("5", bg="gray100")
         self.addButton("6", bg="gray100")
@@ -359,15 +391,23 @@ class StandardMode:
         self.addButton("2", bg="gray100")
         self.addButton("3", bg="gray100")
         self.addButton("+")
+
         self.addButton("+/-", bg="gray100", action=lambda: self.toggleNegative())
         self.addButton("0", bg="gray100")
         self.addButton(".", bg="gray100", action=lambda: self.insertDecimal())
         self.addButton("=", bg="lightblue", action=lambda: self.eqBtn())
+
         self.addButton("STORE", action=lambda: self.btn_store())
         self.addButton("ERASE", action=lambda: self.btn_erase())
         self.addButton("STD", action=lambda: self.btn_stddev())
         self.addButton("log(b,x)", action=lambda: self.test_btn2())
+
         self.addButton("B", action=lambda: self.test_btn())
         self.addButton("Γ(x)", action=lambda: self.btn_gamma())
         self.addButton("MAD", action=lambda: self.btn_MAD())
         self.addButton("sinh", action=lambda: self.btn_sinh())
+
+        self.addButton("sinx", action=lambda: self.btn_sinx())
+
+        #in progress
+        #ComboBox(self.buttonFrame, width=10, height=3).grid(row= 9, column=1, padx=1, pady=1)
