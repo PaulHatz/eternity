@@ -1,6 +1,7 @@
 from functools import partial
 from math import *
 from tkinter import *
+import datetime
 
 def factorial(n):
     if n ==0:
@@ -11,6 +12,8 @@ def factorial(n):
 def fact(n):
     return factorial(int(n))
 
+
+
 class StandardMode:
 
     def performCalc(self, calc):
@@ -19,7 +22,7 @@ class StandardMode:
         for op, alias in op_dict.items():
             final_calc = final_calc.replace(op, alias)
 
-        func_dict = { 'log': self.calc_log, 'sqrt': self.calc_sqrt }
+        func_dict = { 'log': self.calc_log, 'sqrt': self.calc_sqrt, 'gamma': self.gamma, 'sinh': self.sinh }
         return eval(final_calc, func_dict)
 
     def getCurInputFiltered(self):
@@ -60,6 +63,9 @@ class StandardMode:
 
             if self.lParCount == 0:
                 ans = self.performCalc(self.currentInputResult.get())
+                self.f = open("history" + ".txt", 'a')
+                self.f.write(self.currentInputResult.get() + "=" + str(ans) + "\n")
+                self.f.close()
                 self.input.set(ans)
                 self.insert_to_curinput('=')
                 self.is_preview_res = False
@@ -105,6 +111,13 @@ class StandardMode:
                 self.insert_to_curinput(txt)
                 self.input.set(self.eq_par(self.lParCount))
                 self.is_preview_res = True
+    def gamma(self, x):
+        return factorial(x - 1)
+
+    def sinh(self, x):
+        expression = float(x)
+        e = 2.718281828459
+        return ((e**expression)-(1/e**expression))/2
 
     def btn_factorial(self):
         cur_input = self.input.get()
@@ -114,8 +127,7 @@ class StandardMode:
         self.is_preview_res = True
     
     def calc_log(self, B, X):
-        X = int(X)
-        orig_X = X
+        X = float(X)
         if X<=0 or B<=0:
             return
         
@@ -151,14 +163,59 @@ class StandardMode:
         self.input.set(self.calc_log(B, X))
         self.insert_to_curinput(str("log(" + str(B) + ", " + str(X) + ")"))
         self.is_preview_res = True
-        self.resetInput = True
-  
+        self.resetInput = True        
+
     def btn_arccos(self):
         pass
+
+    def btn_sinh(self):
+        x = float(self.input.get())
+        self.input.set(sinh(x))
+        self.insert_to_curinput("sinh(" + str(x) + ")")
+        self.is_preview_res = True
+        self.resetInput = True
 
     def btn_clearInput(self):
         self.input.set("0")
         self.lParCount = 0
+
+    def btn_store(self):
+        self.storedValues.append(float(self.input.get()))
+        self.resetInput = True
+
+    def btn_erase(self):
+        self.storedValues = []
+
+    def btn_stddev(self):
+        m = sum(self.storedValues)/len(self.storedValues)
+        var = sum(pow(x - m,2) for x in self.storedValues)/(len(self.storedValues)-1)
+        stddev = var **0.5
+        print(stddev)
+        self.input.set(stddev)
+        self.resetInput = True
+        self.is_preview_res = True
+
+    def btn_gamma(self):
+        result = gamma(int(self.input.get()))
+        self.insert_to_curinput("gamma(" + self.input.get() + ")")
+        self.input.set(result)
+        self.is_preview_res = True
+        self.resetInput = True
+
+
+    def btn_MAD(self):
+        median_vals = sum(self.storedValues) / len(self.storedValues)
+
+        dev = 0
+
+        for x in self.storedValues:
+            dev += abs(x - median_vals)
+
+        self.input.set(dev/len(self.storedValues))
+        self.resetInput = True
+
+
+
 
     def handleButton(self, text, action = None):
         cur_input = self.input.get()
@@ -249,12 +306,22 @@ class StandardMode:
         self.resetInput = False
         self.lParCount = 0
 
+
+    def test_btn(self):
+        self.log_base = int(self.input.get())
+        self.resetInput = True
+        
+    def test_btn2(self):
+        self.input.set(self.calc_log(B=self.log_base, X=self.input.get()))
+        self.resetInput = True
+        
+        
     def __init__(self, window):
         self.node_list = []
 
         self.window = window
         self.btn_list = []
-        self.buttonFrame = Frame(window, width=400, height=500, bg='grey90')
+        self.buttonFrame = Frame(window, width=450, height=500, bg='grey90')
         self.buttonFrame.pack(side=BOTTOM)
         self.input = StringVar(value="0")
         self.currentInputResult = StringVar()
@@ -263,7 +330,9 @@ class StandardMode:
         self.resetInput = False
         self.is_preview_res = False
         self.lParCount = 0
-
+        self.storedValues = []
+        self.log_base = 10
+        #str(datetime.datetime.now()) + 
         self.addButton("2nd")
         self.addButton("CE", action=lambda: self.btn_clearInput())
         self.addButton("C", action=lambda: self.clear())
@@ -294,3 +363,11 @@ class StandardMode:
         self.addButton("0", bg="gray100")
         self.addButton(".", bg="gray100", action=lambda: self.insertDecimal())
         self.addButton("=", bg="lightblue", action=lambda: self.eqBtn())
+        self.addButton("STORE", action=lambda: self.btn_store())
+        self.addButton("ERASE", action=lambda: self.btn_erase())
+        self.addButton("STD", action=lambda: self.btn_stddev())
+        self.addButton("log(b,x)", action=lambda: self.test_btn2())
+        self.addButton("B", action=lambda: self.test_btn())
+        self.addButton("Γ(x)", action=lambda: self.btn_gamma())
+        self.addButton("MAD", action=lambda: self.btn_MAD())
+        self.addButton("sinh", action=lambda: self.btn_sinh())

@@ -1,5 +1,7 @@
 from functools import partial
 from tkinter import *
+from tkinter import messagebox
+import os
 
 from functions.CalcBtn import CalcBtn
 from functions.StandardMode import StandardMode
@@ -19,6 +21,23 @@ def menuBarFocusOut(e):
     menuFrame.place_forget()
     showingMenuFrame = False
 
+def viewHistoryBtn():
+    os.startfile("history.txt")
+
+def sendHistoryBtn():
+    if os.path.exists("history.txt"):
+        f = open("history.txt")
+        os.startfile('mailto://&subject="History"&body=' + f.read())
+
+
+def clearHistoryBtn():
+    if os.path.exists("history.txt"):
+        os.remove("history.txt")
+        messagebox.showinfo("Success!", "History deleted.")
+    else:
+        messagebox.showinfo("Success!", "")
+
+
 def init_menuBar(window):
     global menuFrame, showingMenuFrame
     showingMenuFrame = False
@@ -33,21 +52,55 @@ def init_menuBar(window):
     x=Button(menuFrame, text="  Standard", width=22, height=2, bd=0, font='arial 11', bg="gray75", anchor=W)
     x.grid(row=3, column=0)
     
-    y=Button(menuFrame, text="  Scientific", width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
+    y=Button(menuFrame, text="  View History", command=lambda: viewHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
     y.grid(row=4, column=0)
     
-    z=Button(menuFrame, text="  Conversion", width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
-    z.grid(row=5, column=0)
+    zz=Button(menuFrame, text="  Send History (Mail)", command=lambda: sendHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
+    zz.grid(row=5, column=0)
 
-def configureWindow(window):
+    z=Button(menuFrame, text="  Clear History", command=lambda: clearHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
+    z.grid(row=6, column=0)
+
+
+def bind_KeyPress(e, stdmode):
+    c = e.char
+
+    if c.isnumeric():
+        stdmode.handleButton(c)
+    else:
+        if c ==  '*':
+            stdmode.handleButton('×')
+        elif c ==  '/':
+            stdmode.handleButton('÷')
+        elif c ==  '+':
+            stdmode.handleButton('+')
+        elif c ==  '-':
+            stdmode.handleButton('-')
+        elif c ==  '.':
+            stdmode.insertDecimal()
+        elif c ==  '(':
+            stdmode.parBtn("(")
+        elif c ==  ')':
+            stdmode.parBtn(")")
+        elif c ==  '^':
+            stdmode.handleButton('^')
+        elif c ==  '!':
+            stdmode.btn_factorial()
+        elif c ==  '\b':
+            stdmode.backspace()
+        elif c ==  '=':
+            stdmode.eqBtn()
+
+def configureWindow(window, old_root):
     global previousInput
     previousInput = StringVar()
     #global previousResultField, inputField
     
+
     stdmode = StandardMode(window)
+    old_root.bind('<KeyPress>', lambda e: bind_KeyPress(e, stdmode))
 
-
-    headFrame = Frame(window, width=400, height=50, bg="gray100")
+    headFrame = Frame(window, width=450, height=50, bg="gray100")
     headFrame.pack()
     headFrame.grid_propagate(0)
     
@@ -57,9 +110,9 @@ def configureWindow(window):
     title = Label(headFrame, height=2, font=('arial', 16, 'bold'), bg='gray100', text="ETERNITY")
     title.grid(row=0,column=2)
 
-    currentResultField = Label(window, width=45, height=1, font='arial 12', bg='lightblue', textvariable=stdmode.currentInputResult, anchor=E, justify=RIGHT)
+    currentResultField = Label(window, width=50, height=1, font='arial 12', bg='lightblue', textvariable=stdmode.currentInputResult, anchor=E, justify=RIGHT)
     currentResultField.pack(padx=5)
-    inputField = Label(window, width=15, height=1, font=('arial', 32, 'bold'), bg='lightblue', textvariable=stdmode.input, anchor=E, justify=RIGHT)
+    inputField = Label(window, width=50, height=1, font=('arial', 32, 'bold'), bg='lightblue', textvariable=stdmode.input, anchor=E, justify=RIGHT)
     inputField.pack(padx=5)
 
 
