@@ -3,6 +3,7 @@ from math import *
 from tkinter import *
 import datetime
 from functions.ComboBox import *
+from functions.Trig import *
 
 def factorial(n):
     if n ==0:
