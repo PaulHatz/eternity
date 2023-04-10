@@ -362,7 +362,7 @@ class StandardMode:
         self.lParCount = 0
         self.storedValues = []
         self.log_base = 10
-        #str(datetime.datetime.now()) + 
+
         self.addButton("2nd")
         self.addButton("CE", action=lambda: self.btn_clearInput())
         self.addButton("C", action=lambda: self.clear())
@@ -409,6 +409,10 @@ class StandardMode:
         self.addButton("sinh", action=lambda: self.btn_sinh())
 
         self.addButton("sinx", action=lambda: self.btn_sinx())
+        self.trig_frame = Trig(window)
+
+
+
 
         #in progress
         #ComboBox(self.buttonFrame, width=10, height=3).grid(row= 9, column=1, padx=1, pady=1)
