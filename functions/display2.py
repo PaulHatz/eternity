@@ -41,7 +41,7 @@ def clearHistoryBtn():
 def init_menuBar(window):
     global menuFrame, showingMenuFrame
     showingMenuFrame = False
-    menuFrame = Frame(window, width=200, height=561, bg="gray80", relief='raised')
+    menuFrame = Frame(window, width=200, height=750, bg="gray80", relief='raised')
     menuFrame.grid_propagate(0)
     menuFrame.bind("<FocusOut>", menuBarFocusOut)
 
@@ -54,20 +54,20 @@ def init_menuBar(window):
     
     
     
-    l2= Label(menuFrame, text= "CONVERTER", font='arial 8', bg='gray80', fg='gray10', anchor=W)
-    l2.grid(row=4, column=0, pady=5)
-
-    lengthBtn=Button(menuFrame, text="  Length", command=lambda: sendHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
-    lengthBtn.grid(row=5, column=0)
-    
-    volumeBtn=Button(menuFrame, text="  Volume", command=lambda: sendHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
-    volumeBtn.grid(row=6, column=0)
-
-    weightBtn=Button(menuFrame, text="  Weight", command=lambda: sendHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
-    weightBtn.grid(row=7, column=0)
-
-    timeBtn=Button(menuFrame, text="  Time", command=lambda: sendHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
-    timeBtn.grid(row=8, column=0)
+    #l2= Label(menuFrame, text= "CONVERTER", font='arial 8', bg='gray80', fg='gray10', anchor=W)
+    #l2.grid(row=4, column=0, pady=5)
+    #
+    #lengthBtn=Button(menuFrame, text="  Length", command=lambda: sendHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
+    #lengthBtn.grid(row=5, column=0)
+    #
+    #volumeBtn=Button(menuFrame, text="  Volume", command=lambda: sendHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
+    #volumeBtn.grid(row=6, column=0)
+    #
+    #weightBtn=Button(menuFrame, text="  Weight", command=lambda: sendHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
+    #weightBtn.grid(row=7, column=0)
+    #
+    #timeBtn=Button(menuFrame, text="  Time", command=lambda: sendHistoryBtn(), width=22, height=2, bd=0, font='arial 11', bg="gray80", anchor=W)
+    #timeBtn.grid(row=8, column=0)
 
 
     l3= Label(menuFrame, text= "HISTORY", font='arial 8', bg='gray80', fg='gray10', anchor=W)

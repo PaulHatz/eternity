@@ -24,7 +24,7 @@ class StandardMode:
         for op, alias in op_dict.items():
             final_calc = final_calc.replace(op, alias)
 
-        func_dict = { 'log': self.calc_log, 'sqrt': self.calc_sqrt, 'gamma': self.gamma, 'sinh': self.sinh }
+        func_dict = { 'log': self.calc_log, 'sqrt': self.calc_sqrt, 'gamma': self.gamma, 'sinh': self.sinh, 'sin': self.sint, 'cos': self.cost, 'tan': self.tant }
         return eval(final_calc, func_dict)
 
     def getCurInputFiltered(self):
@@ -342,7 +342,7 @@ class StandardMode:
     def btn_sinx(self):
         x = float(self.input.get())
 
-        self.insert_to_curinput("sin(" + str(x) + self.angle_mode + ")")
+        self.insert_to_curinput("sin(" + str(x) + ")")
         self.input.set(self.sint(x))
         
         self.resetInput = True
@@ -351,7 +351,7 @@ class StandardMode:
     def btn_cosx(self):
         x = float(self.input.get())
 
-        self.insert_to_curinput("cos(" + str(x) + self.angle_mode + ")")
+        self.insert_to_curinput("cos(" + str(x) + ")")
         self.input.set(self.cost(x))
         
         self.resetInput = True
@@ -360,12 +360,11 @@ class StandardMode:
     def btn_tanx(self):
         x = float(self.input.get())
 
-        self.insert_to_curinput("tan(" + str(x) + self.angle_mode + ")")
+        self.insert_to_curinput("tan(" + str(x) + ")")
         self.input.set(self.tant(x))
         
         self.resetInput = True
         self.is_preview_res = True
-        print("buttonframe:", self.buttonFrame.bbox())
 
 
     #Weight Units
