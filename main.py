@@ -5,7 +5,7 @@ import functions.display2 as display
 
 root = Tk()
 root.title('ETERNITY - Calculator')
-root.geometry('450x800')
+root.geometry('400x800')
 root.resizable(0, 0)
 root.configure(background='grey90')
 

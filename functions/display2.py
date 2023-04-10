@@ -119,20 +119,31 @@ def configureWindow(window, old_root):
     stdmode = StandardMode(window)
     old_root.bind('<KeyPress>', lambda e: bind_KeyPress(e, stdmode))
 
-    headFrame = Frame(window, width=450, height=50, bg="gray100")
+   # headFrame = Frame(window, width=450, height=50, bg="gray100")
+    headFrame = Frame(window, width=400, height=50, bg="gray90")
     headFrame.pack()
     headFrame.grid_propagate(0)
     
-    btn = Button(headFrame, text='☰', height=1, bd=0, bg="gray100", font='arial 12', command=lambda: toggleMenu() )
+    #btn = Button(headFrame, text='☰', height=1, bd=0, bg="gray100", font='arial 12', command=lambda: toggleMenu() )
+    btn = Button(headFrame, text='☰', height=1, bd=0, bg="gray90", font='arial 12', command=lambda: toggleMenu() )
     btn.grid(row=0,column=0, padx=5)
 
-    title = Label(headFrame, height=2, font=('arial', 16, 'bold'), bg='gray100', text="ETERNITY")
+    #title = Label(headFrame, height=2, font=('arial', 16, 'bold'), bg='gray100', text="ETERNITY")
+    title = Label(headFrame, height=2, font=('arial', 16, 'bold'), bg='gray90', text="ETERNITY")
     title.grid(row=0,column=2)
 
-    currentResultField = Label(window, width=50, height=1, font='arial 12', bg='lightblue', textvariable=stdmode.currentInputResult, anchor=E, justify=RIGHT)
+    #currentResultField = Label(window, width=50, height=1, font='arial 12', bg='lightblue', textvariable=stdmode.currentInputResult, anchor=E, justify=RIGHT)
+    #currentResultField.pack(padx=5)
+    #inputField = Label(window, width=50, height=1, font=('arial', 32, 'bold'), bg='lightblue', textvariable=stdmode.input, anchor=E, justify=RIGHT)
+    #inputField.pack(padx=5)
+    
+    
+    currentResultField = Label(window, width=50, height=1, font='arial 12', bg='gray90', textvariable=stdmode.currentInputResult, anchor=E, justify=RIGHT)
     currentResultField.pack(padx=5)
-    inputField = Label(window, width=50, height=1, font=('arial', 32, 'bold'), bg='lightblue', textvariable=stdmode.input, anchor=E, justify=RIGHT)
+    inputField = Label(window, width=50, height=1, font=('arial', 32, 'bold'), bg='gray90', textvariable=stdmode.input, anchor=E, justify=RIGHT)
     inputField.pack(padx=5)
 
 
     init_menuBar(window)
+
+

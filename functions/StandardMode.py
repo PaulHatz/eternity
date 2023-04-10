@@ -1,8 +1,9 @@
 from functools import partial
 from math import *
 from tkinter import *
-import datetime
-from functions.ComboBox import *
+
+#from functions.ComboBox import *
+#from functions.Trig import *
 
 def factorial(n):
     if n ==0:
@@ -270,7 +271,7 @@ class StandardMode:
             else:
                 self.input.set("0")
 
-    def addButton(self, txt = "Button", alias=None, action = None, bg="gray94", font='arial 12', width=10, height=3):
+    def addButton(self, txt = "Button", alias=None, action = None, bg="gray94", font='arial 12', width=10, height=2):
         btn = Button(self.buttonFrame, text=txt, command=lambda: self.handleButton(txt if alias == None else alias, action), font=font, bg=bg, bd=0, width=width, height=height)
         i = len(self.btn_list)
         cur_row = int(i / 4) if i > 0 else 0
@@ -316,7 +317,9 @@ class StandardMode:
 
 
     def sint(self, t):
-        #x = x * 3.14 / 180
+        if self.angle_mode == "deg":
+            t = t * 180 / 3.14
+
         value = t
         sign = -1
         n = 150 # precision
@@ -326,7 +329,6 @@ class StandardMode:
             i = i + 2
             sign = sign * -1
 
-        #print(value)
         return value
 
     def cost(self, t):
@@ -338,19 +340,44 @@ class StandardMode:
         print(ret)
 
     def btn_sinx(self):
-        self.tant(0)
-        self.tant(-1.23)
-        self.tant(10)
-        self.tant(3.14159265359)
+        x = float(self.input.get())
+
+        self.insert_to_curinput("sin(" + str(x) + self.angle_mode + ")")
+        self.input.set(self.sint(x))
+        
+        self.resetInput = True
+        self.is_preview_res = True
+
+    def btn_cosx(self):
+        x = float(self.input.get())
+
+        self.insert_to_curinput("cos(" + str(x) + self.angle_mode + ")")
+        self.input.set(self.cost(x))
+        
+        self.resetInput = True
+        self.is_preview_res = True
+
+    def btn_tanx(self):
+        x = float(self.input.get())
+
+        self.insert_to_curinput("tan(" + str(x) + self.angle_mode + ")")
+        self.input.set(self.tant(x))
+        
+        self.resetInput = True
+        self.is_preview_res = True
+        print("buttonframe:", self.buttonFrame.bbox())
+
 
     #Weight Units
-       
+
     def __init__(self, window):
         self.node_list = []
 
         self.window = window
         self.btn_list = []
-        self.buttonFrame = Frame(window, width=450, bg='gray10')
+
+
+        self.buttonFrame = Frame(window, bg='gray90')
         self.buttonFrame.pack(side=BOTTOM)
         self.input = StringVar(value="0")
         self.currentInputResult = StringVar()
@@ -361,7 +388,8 @@ class StandardMode:
         self.lParCount = 0
         self.storedValues = []
         self.log_base = 10
-        #str(datetime.datetime.now()) + 
+        self.angle_mode = "deg"
+
         self.addButton("2nd")
         self.addButton("CE", action=lambda: self.btn_clearInput())
         self.addButton("C", action=lambda: self.clear())
@@ -408,6 +436,10 @@ class StandardMode:
         self.addButton("sinh", action=lambda: self.btn_sinh())
 
         self.addButton("sinx", action=lambda: self.btn_sinx())
+        self.addButton("cosx", action=lambda: self.btn_cosx())
+        self.addButton("tanx", action=lambda: self.btn_tanx())
+
+        #self.trig_funcs = Trig(window)
 
         #in progress
         #ComboBox(self.buttonFrame, width=10, height=3).grid(row= 9, column=1, padx=1, pady=1)
