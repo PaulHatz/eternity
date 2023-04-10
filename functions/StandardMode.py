@@ -345,13 +345,18 @@ class StandardMode:
         self.tant(3.14159265359)
 
     #Weight Units
+
+    def testBtn(self):
+        self.trig_frame.button_frame.place( x=30, y=200)
+
+
        
     def __init__(self, window):
         self.node_list = []
 
         self.window = window
         self.btn_list = []
-        self.buttonFrame = Frame(window, width=450, bg='gray10')
+        self.buttonFrame = Frame(window, width=400, bg='gray10')
         self.buttonFrame.pack(side=BOTTOM)
         self.input = StringVar(value="0")
         self.currentInputResult = StringVar()
@@ -363,26 +368,29 @@ class StandardMode:
         self.storedValues = []
         self.log_base = 10
 
-        self.addButton("2nd")
+        self.trig_frame = Trig(window)
+
+
+        self.addButton("2nd", action=lambda: self.testBtn())
         self.addButton("CE", action=lambda: self.btn_clearInput())
         self.addButton("C", action=lambda: self.clear())
         self.addButton("←", action=lambda: self.backspace())
-
+        
         self.addButton("log", action=lambda: self.btn_log())
         self.addButton("xʸ", alias="^")
         self.addButton("√", action=lambda: self.btn_sqrt())
         self.addButton("𝑛!", action=lambda: self.btn_factorial())
-
+        
         self.addButton("ln")
         self.addButton("(", action=lambda: self.parBtn("("))
         self.addButton(")",  action=lambda: self.parBtn(")"))
         self.addButton("÷")
-
+        
         self.addButton("7", bg="gray100")
         self.addButton("8", bg="gray100")
         self.addButton("9", bg="gray100")
         self.addButton('×')
-
+        
         self.addButton("4", bg="gray100")
         self.addButton("5", bg="gray100")
         self.addButton("6", bg="gray100")
@@ -392,24 +400,23 @@ class StandardMode:
         self.addButton("2", bg="gray100")
         self.addButton("3", bg="gray100")
         self.addButton("+")
-
+        
         self.addButton("+/-", bg="gray100", action=lambda: self.toggleNegative())
         self.addButton("0", bg="gray100")
         self.addButton(".", bg="gray100", action=lambda: self.insertDecimal())
         self.addButton("=", bg="lightblue", action=lambda: self.eqBtn())
-
+        
         self.addButton("STORE", action=lambda: self.btn_store())
         self.addButton("ERASE", action=lambda: self.btn_erase())
         self.addButton("STD", action=lambda: self.btn_stddev())
         self.addButton("log(b,x)", action=lambda: self.test_btn2())
-
+        
         self.addButton("B", action=lambda: self.test_btn())
         self.addButton("Γ(x)", action=lambda: self.btn_gamma())
         self.addButton("MAD", action=lambda: self.btn_MAD())
         self.addButton("sinh", action=lambda: self.btn_sinh())
-
+        
         self.addButton("sinx", action=lambda: self.btn_sinx())
-        self.trig_frame = Trig(window)
 
 
 

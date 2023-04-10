@@ -132,11 +132,7 @@ def configureWindow(window, old_root):
     title = Label(headFrame, height=2, font=('arial', 16, 'bold'), bg='gray90', text="ETERNITY")
     title.grid(row=0,column=2)
 
-    #currentResultField = Label(window, width=50, height=1, font='arial 12', bg='lightblue', textvariable=stdmode.currentInputResult, anchor=E, justify=RIGHT)
-    #currentResultField.pack(padx=5)
-    #inputField = Label(window, width=50, height=1, font=('arial', 32, 'bold'), bg='lightblue', textvariable=stdmode.input, anchor=E, justify=RIGHT)
-    #inputField.pack(padx=5)
-    
+
     
     currentResultField = Label(window, width=50, height=1, font='arial 12', bg='gray90', textvariable=stdmode.currentInputResult, anchor=E, justify=RIGHT)
     currentResultField.pack(padx=5)
