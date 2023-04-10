@@ -388,7 +388,7 @@ class StandardMode:
         self.lParCount = 0
         self.storedValues = []
         self.log_base = 10
-        self.angle_mode = "deg"
+        self.angle_mode = "rad"
 
         self.addButton("2nd")
         self.addButton("CE", action=lambda: self.btn_clearInput())
