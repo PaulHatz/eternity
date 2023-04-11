@@ -1,15 +1,12 @@
 from functools import partial
-from math import *
+
 from tkinter import *
 
 #from functions.ComboBox import *
 #from functions.Trig import *
 
-def factorial(n):
-    if n ==0:
-        return 1
-    else:
-        return n* factorial(n-1)
+from functions.formulas import *
+
 
 def fact(n):
     return factorial(int(n))
@@ -24,7 +21,7 @@ class StandardMode:
         for op, alias in op_dict.items():
             final_calc = final_calc.replace(op, alias)
 
-        func_dict = { 'log': self.calc_log, 'sqrt': self.calc_sqrt, 'gamma': self.gamma, 'sinh': self.sinh, 'sin': self.sint, 'cos': self.cost, 'tan': self.tant }
+        func_dict = { 'log': calc_log, 'ln': ln, 'sqrt': calc_sqrt, 'gamma': gamma, 'sinh': sinh, 'sin': sint, 'cos': cost, 'tan': tant }
         return eval(final_calc, func_dict)
 
     def getCurInputFiltered(self):
@@ -113,14 +110,7 @@ class StandardMode:
                 self.insert_to_curinput(txt)
                 self.input.set(self.eq_par(self.lParCount))
                 self.is_preview_res = True
-    def gamma(self, x):
-        return factorial(x - 1)
-
-    def sinh(self, x):
-        expression = float(x)
-        e = 2.718281828459
-        return ((e**expression)-(1/e**expression))/2
-
+    
     def btn_factorial(self):
         cur_input = self.input.get()
         self.insert_to_curinput("fact(" + cur_input + ")")
@@ -128,31 +118,7 @@ class StandardMode:
         self.resetInput = True
         self.is_preview_res = True
     
-    def calc_log(self, B, X):
-        X = float(X)
-        if X<=0 or B<=0:
-            return
-        
-        numerator =0
-        denominator =0
-
-        while X>= B:
-            X /= B
-            numerator +=1
-
-        for i in range(1,1000):
-            if i%2 ==1:
-                answer =((X-1) ** i)/i
-                denominator += answer
-            else:
-                answer= ((X-1) ** i)/i
-                numerator += answer
-
-        return numerator -denominator*2
-        
-    def calc_sqrt(self, X):
-        return X ** 0.5
-
+    
     def btn_sqrt(self):
         X = float(self.input.get())
         self.input.set(self.calc_sqrt(X))
@@ -161,14 +127,12 @@ class StandardMode:
         self.resetInput = True
 
     def btn_log(self, B=10):
-        X = self.input.get()        
-        self.input.set(self.calc_log(B, X))
+        X = float(self.input.get())
+        self.input.set(calc_log(B, X))
         self.insert_to_curinput(str("log(" + str(B) + ", " + str(X) + ")"))
         self.is_preview_res = True
         self.resetInput = True        
 
-    def btn_arccos(self):
-        pass
 
     def btn_sinh(self):
         x = float(self.input.get())
@@ -204,7 +168,6 @@ class StandardMode:
         self.is_preview_res = True
         self.resetInput = True
 
-
     def btn_MAD(self):
         median_vals = sum(self.storedValues) / len(self.storedValues)
 
@@ -215,7 +178,6 @@ class StandardMode:
 
         self.input.set(dev/len(self.storedValues))
         self.resetInput = True
-
 
     def handleButton(self, text, action = None):
         cur_input = self.input.get()
@@ -312,38 +274,14 @@ class StandardMode:
         self.resetInput = True
         
     def test_btn2(self):
-        self.input.set(self.calc_log(B=self.log_base, X=self.input.get()))
-        self.resetInput = True
-
-
-    def sint(self, t):
-        if self.angle_mode == "deg":
-            t = t * 180 / 3.14
-
-        value = t
-        sign = -1
-        n = 150 # precision
-        i = 3
-        while i < n:
-            value = value + ((t ** i) / float(factorial(i)) * sign)
-            i = i + 2
-            sign = sign * -1
-
-        return value
-
-    def cost(self, t):
-        pi = 3.14159265359
-        return self.sint(float(pi/2) - t)
-
-    def tant(self, t):
-        ret= self.sint(t)/self.cost(t)
-        print(ret)
+        self.input.set(calc_log(B=self.log_base, X=self.input.get()))
+        self.resetInput = True 
 
     def btn_sinx(self):
         x = float(self.input.get())
 
         self.insert_to_curinput("sin(" + str(x) + ")")
-        self.input.set(self.sint(x))
+        self.input.set(sint(x))
         
         self.resetInput = True
         self.is_preview_res = True
@@ -437,8 +375,3 @@ class StandardMode:
         self.addButton("sinx", action=lambda: self.btn_sinx())
         self.addButton("cosx", action=lambda: self.btn_cosx())
         self.addButton("tanx", action=lambda: self.btn_tanx())
-
-        #self.trig_funcs = Trig(window)
-
-        #in progress
-        #ComboBox(self.buttonFrame, width=10, height=3).grid(row= 9, column=1, padx=1, pady=1)
